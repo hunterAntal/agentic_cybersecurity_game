@@ -64,6 +64,32 @@ class DefenderAgentTest {
         assertEquals("NORMAL", agent.computeEffectiveness("BLOCK", "MALWARE"));
     }
 
+    // --- computeEffectiveness: case-insensitive threat input ---
+
+    @Test
+    void block_against_lowercase_phishing_is_super_effective() {
+        assertEquals("SUPER_EFFECTIVE", agent.computeEffectiveness("BLOCK", "phishing"));
+    }
+
+    @Test
+    void patch_against_lowercase_bruteforce_is_super_effective() {
+        assertEquals("SUPER_EFFECTIVE", agent.computeEffectiveness("PATCH", "bruteforce"));
+    }
+
+    @Test
+    void scan_against_lowercase_malware_is_super_effective() {
+        assertEquals("SUPER_EFFECTIVE", agent.computeEffectiveness("SCAN", "malware"));
+    }
+
+    // --- computeEffectiveness: unknown threat type ---
+
+    @Test
+    void any_move_against_unknown_threat_is_normal() {
+        assertEquals("NORMAL", agent.computeEffectiveness("PATCH", "UNKNOWN"));
+        assertEquals("NORMAL", agent.computeEffectiveness("SCAN",  "UNKNOWN"));
+        assertEquals("NORMAL", agent.computeEffectiveness("BLOCK", "UNKNOWN"));
+    }
+
     // --- recommendMove ---
 
     @Test
@@ -79,5 +105,14 @@ class DefenderAgentTest {
     @Test
     void recommends_scan_for_malware() {
         assertEquals("SCAN", agent.recommendMove("MALWARE"));
+    }
+
+    @Test
+    void recommends_scan_for_unknown_threat() {
+        // SCAN has the highest utility for an unknown threat:
+        // PATCH: 0.1 - 0.30 - 0.05 = -0.25
+        // SCAN:  0.1 - 0.10 - 0.10 = -0.10  ← best
+        // BLOCK: 0.1 - 0.20 - 0.20 = -0.30
+        assertEquals("SCAN", agent.recommendMove("UNKNOWN"));
     }
 }

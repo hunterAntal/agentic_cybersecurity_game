@@ -142,4 +142,128 @@ class MonitoringScoringAgentTest {
         GameSummary summary = agent.endSession();
         assertEquals(0.0, summary.accuracyRate);
     }
+
+    // --- helpUsedCount tracking ---
+
+    @Test
+    void record_help_used_increments_help_count() {
+        agent.recordHelpUsed();
+        agent.recordHelpUsed();
+        GameSummary summary = agent.endSession();
+        assertEquals(2, summary.helpUsedCount);
+    }
+
+    // --- accuracy rate ---
+
+    @Test
+    void accuracy_is_1_when_all_waves_are_first_attempt() {
+        agent.processOutcome("SUPER_EFFECTIVE", false, false);
+        agent.processOutcome("NORMAL", false, false);
+        GameSummary summary = agent.endSession();
+        assertEquals(1.0, summary.accuracyRate, 0.0001);
+    }
+
+    @Test
+    void accuracy_is_correct_with_mixed_retries() {
+        // wave 1: first attempt (correctFirstAttempts=1, wavesCompleted=1)
+        agent.processOutcome("SUPER_EFFECTIVE", false, false);
+        // wave 2: retry (correctFirstAttempts stays 1, wavesCompleted=2)
+        agent.processOutcome("SUPER_EFFECTIVE", false, true);
+        GameSummary summary = agent.endSession();
+        assertEquals(0.5, summary.accuracyRate, 0.0001);
+    }
+
+    // --- performanceRating upper-boundary tests ---
+
+    @Test
+    void rating_is_analyst_at_exactly_600_xp() {
+        // start=500 + NORMAL(+100) = 600
+        agent.processOutcome("NORMAL", false, false);
+        GameSummary summary = agent.endSession();
+        assertEquals(600, summary.totalXP);
+        assertEquals("ANALYST", summary.performanceRating);
+    }
+
+    @Test
+    void rating_is_specialist_at_601_xp() {
+        // start=500, +SUPER_EFFECTIVE(+150)=650, deduct 49 → 601
+        // deduction = max(1, floor(650 * 0.0754)) = max(1, floor(49.01)) = 49
+        agent.processOutcome("SUPER_EFFECTIVE", false, false); // 650
+        agent.deductXP(0.0754);                                 // 650-49=601
+        GameSummary summary = agent.endSession();
+        assertEquals(601, summary.totalXP);
+        assertEquals("SPECIALIST", summary.performanceRating);
+    }
+
+    @Test
+    void rating_is_specialist_at_exactly_900_xp() {
+        // start=500, 2x SUPER_EFFECTIVE(+300), 1x NORMAL(+100) = 900
+        agent.processOutcome("SUPER_EFFECTIVE", false, false);
+        agent.processOutcome("SUPER_EFFECTIVE", false, false);
+        agent.processOutcome("NORMAL", false, false);
+        GameSummary summary = agent.endSession();
+        assertEquals(900, summary.totalXP);
+        assertEquals("SPECIALIST", summary.performanceRating);
+    }
+
+    @Test
+    void rating_is_defender_at_901_xp() {
+        // start=500, 3x SUPER_EFFECTIVE(+450)=950, deduct 49 → 901
+        // deduction = max(1, floor(950 * 0.0516)) = max(1, floor(49.02)) = 49
+        agent.processOutcome("SUPER_EFFECTIVE", false, false);
+        agent.processOutcome("SUPER_EFFECTIVE", false, false);
+        agent.processOutcome("SUPER_EFFECTIVE", false, false); // 950
+        agent.deductXP(0.0516);                                 // 950-49=901
+        GameSummary summary = agent.endSession();
+        assertEquals(901, summary.totalXP);
+        assertEquals("DEFENDER", summary.performanceRating);
+    }
+
+    // --- closingMessage content per rating ---
+
+    @Test
+    void closing_message_for_recruit_rating() {
+        agent.deductXP(0.4); // 300 XP → RECRUIT
+        GameSummary summary = agent.endSession();
+        assertEquals("RECRUIT", summary.performanceRating);
+        assertTrue(summary.closingMessage.contains("recruit"));
+    }
+
+    @Test
+    void closing_message_for_analyst_rating() {
+        agent.processOutcome("NORMAL", false, false); // 600 XP → ANALYST
+        GameSummary summary = agent.endSession();
+        assertEquals("ANALYST", summary.performanceRating);
+        assertTrue(summary.closingMessage.contains("Analyst"));
+    }
+
+    @Test
+    void closing_message_for_specialist_rating() {
+        agent.processOutcome("SUPER_EFFECTIVE", false, false);
+        agent.processOutcome("SUPER_EFFECTIVE", false, false);
+        agent.processOutcome("NORMAL", false, false); // 900 XP → SPECIALIST
+        GameSummary summary = agent.endSession();
+        assertEquals("SPECIALIST", summary.performanceRating);
+        assertTrue(summary.closingMessage.contains("Specialist"));
+    }
+
+    @Test
+    void closing_message_for_defender_rating() {
+        agent.processOutcome("SUPER_EFFECTIVE", false, false);
+        agent.processOutcome("SUPER_EFFECTIVE", false, false);
+        agent.processOutcome("SUPER_EFFECTIVE", false, false);
+        agent.processOutcome("SUPER_EFFECTIVE", false, false); // 1100 XP → DEFENDER
+        GameSummary summary = agent.endSession();
+        assertEquals("DEFENDER", summary.performanceRating);
+        assertTrue(summary.closingMessage.contains("DEFENDER"));
+    }
+
+    // --- deductXP edge cases ---
+
+    @Test
+    void deduct_xp_with_zero_fraction_deducts_minimum_of_one() {
+        // fraction 0.0 → floor(500 * 0.0) = 0 → max(1, 0) = 1 → 499 remaining
+        int remaining = agent.deductXP(0.0);
+        assertEquals(499, remaining);
+    }
 }
