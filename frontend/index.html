@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DEFENDER - Cyber Training Terminal</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: #0a0a0a;
+      color: #00e5b4;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 24px;
+    }
+
+    #terminal {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      padding: 16px;
+    }
+
+    #header {
+      border-bottom: 1px solid #00e5b4;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+      letter-spacing: 2px;
+      font-size: 18px;
+      opacity: 0.7;
+    }
+
+    #output {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 4px;
+      line-height: 1.7;
+    }
+
+    #output::-webkit-scrollbar { width: 4px; }
+    #output::-webkit-scrollbar-track { background: #0a0a0a; }
+    #output::-webkit-scrollbar-thumb { background: #00e5b4; }
+
+    .line { white-space: pre-wrap; word-break: break-word; }
+    .line-defender { color: #00e5b4; }
+    .line-system   { color: #ffaa00; }
+    .line-player   { color: #aaffdd; }
+    .line-score    { color: #44ffaa; font-weight: bold; font-size: 26px; }
+    .line-divider  { color: #336655; }
+    .line-rating   { color: #00ffff; font-size: 25px; letter-spacing: 1px; }
+    .line-closing  { color: #00e5b4; font-style: italic; }
+
+    #input-row {
+      display: flex;
+      align-items: center;
+      margin-top: 12px;
+      border-top: 1px solid #00e5b4;
+      padding-top: 8px;
+    }
+
+    #prompt {
+      margin-right: 6px;
+      color: #00e5b4;
+      flex-shrink: 0;
+    }
+
+    #cmd-input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #aaffdd;
+      font-family: inherit;
+      font-size: 24px;
+      flex: 1;
+      caret-color: #00e5b4;
+      text-transform: uppercase;
+    }
+
+    #cmd-input:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Blinking cursor on last typed character when input disabled */
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .cursor {
+      display: inline-block;
+      width: 12px;
+      height: 1em;
+      background: #00e5b4;
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+
+    #ws-status {
+      float: right;
+      font-size: 16px;
+      opacity: 0.5;
+    }
+    .connected    { color: #00e5b4; }
+    .disconnected { color: #ff4444; }
+  </style>
+</head>
+<body>
+<div id="terminal">
+  <div id="header">
+    DEFENDER CYBER TRAINING SYSTEM v1.5
+    <span id="ws-status" class="disconnected">● OFFLINE</span>
+  </div>
+  <div id="output"></div>
+  <div id="input-row">
+    <span id="prompt">&gt;</span>
+    <input id="cmd-input" type="text" autocomplete="off" spellcheck="false"
+           placeholder="connecting..." disabled />
+  </div>
+</div>
+
+<script>
+  // ── DOM refs ─────────────────────────────────────────────────────────────
+  const output   = document.getElementById('output');
+  const cmdInput = document.getElementById('cmd-input');
+  const wsStatus = document.getElementById('ws-status');
+
+  // ── State ─────────────────────────────────────────────────────────────────
+  let ws;
+  let isTyping  = false;
+  let skipTyping = false;
+  const msgQueue = [];        // buffered {type, ...} objects waiting to print
+  const CHAR_DELAY = 30;      // ms per character
+  const VALID_CMDS = new Set(['READY','PATCH','SCAN','BLOCK','HINT','HELP','NEXT','FINISH']);
+
+  // ── WebSocket ─────────────────────────────────────────────────────────────
+  function connect() {
+    ws = new WebSocket('ws://localhost:8887');
+
+    ws.onopen = () => {
+      wsStatus.textContent = '● ONLINE';
+      wsStatus.className = 'connected';
+      cmdInput.disabled = false;
+      cmdInput.placeholder = 'type a command...';
+    };
+
+    ws.onclose = () => {
+      wsStatus.textContent = '● OFFLINE';
+      wsStatus.className = 'disconnected';
+      cmdInput.disabled = true;
+      cmdInput.placeholder = 'disconnected - refresh to reconnect';
+      appendLine('SYSTEM: Connection closed.', 'line-system');
+    };
+
+    ws.onerror = () => {
+      appendLine('SYSTEM: WebSocket error. Is the backend running?', 'line-system');
+    };
+
+    ws.onmessage = (evt) => {
+      try {
+        const msg = JSON.parse(evt.data);
+        enqueue(msg);
+      } catch(e) {
+        console.error('Bad message:', evt.data);
+      }
+    };
+  }
+
+  // ── Message queue & typewriter ────────────────────────────────────────────
+  function enqueue(msg) {
+    msgQueue.push(msg);
+    if (!isTyping) drainQueue();
+  }
+
+  function drainQueue() {
+    if (msgQueue.length === 0) {
+      isTyping = false;
+      skipTyping = false;
+      setInputEnabled(true);
+      return;
+    }
+    isTyping = true;
+    setInputEnabled(false);
+    const msg = msgQueue.shift();
+    processMsg(msg, drainQueue);
+  }
+
+  function processMsg(msg, done) {
+    switch (msg.type) {
+      case 'DIALOG':
+        typewriterLine(msg.speaker, msg.text, done);
+        break;
+      case 'SCORE_UPDATE':
+        printScoreUpdate(msg);
+        done();
+        break;
+      case 'GAME_OVER':
+        printGameOver(msg);
+        done();
+        break;
+      default:
+        done();
+    }
+  }
+
+  // ── Typewriter effect ─────────────────────────────────────────────────────
+  function typewriterLine(speaker, text, done) {
+    const prefix = `> ${speaker}: `;
+    const fullText = prefix + text;
+
+    const div = document.createElement('div');
+    div.className = `line line-${speaker.toLowerCase()}`;
+    output.appendChild(div);
+    scrollBottom();
+
+    let i = 0;
+    // Add blinking cursor span
+    const cur = document.createElement('span');
+    cur.className = 'cursor';
+    div.appendChild(cur);
+
+    function tick() {
+      if (skipTyping) {
+        div.insertBefore(document.createTextNode(fullText.slice(i)), cur);
+        cur.remove();
+        scrollBottom();
+        done();
+        return;
+      }
+      if (i < fullText.length) {
+        // Insert character before cursor
+        div.insertBefore(document.createTextNode(fullText[i]), cur);
+        i++;
+        scrollBottom();
+        setTimeout(tick, CHAR_DELAY);
+      } else {
+        cur.remove(); // remove blinking cursor when done
+        scrollBottom();
+        done();
+      }
+    }
+    tick();
+  }
+
+  // ── Score update line ─────────────────────────────────────────────────────
+  function printScoreUpdate(msg) {
+    const xp  = msg.xpAwarded;
+    const tot = msg.totalXP;
+    const acc = (msg.accuracyRate * 100).toFixed(0);
+    const wav = msg.wavesCompleted;
+    const xpLabel = xp >= 0 ? `+${xp}` : `${xp}`;
+    const text = `> [${xpLabel} XP] [Total: ${tot} XP] [Accuracy: ${acc}%] [Waves: ${wav}]`;
+
+    const div = document.createElement('div');
+    div.className = 'line line-score';
+
+    div.textContent = text;
+    output.appendChild(div);
+    scrollBottom();
+  }
+
+  // ── Game over block ───────────────────────────────────────────────────────
+  function printGameOver(msg) {
+    const acc = (msg.accuracyRate * 100).toFixed(0);
+    const div = `> ================================`;
+    appendLine('> DEFENDER: Session complete.', 'line-defender');
+    appendLine(div, 'line-divider');
+    appendLine(`> WAVES COMPLETED:      ${msg.wavesCompleted}`, 'line-defender');
+    appendLine(`> CORRECT FIRST MOVES:  ${msg.correctFirstAttempts}`, 'line-defender');
+    appendLine(`> HELP USED:            ${msg.helpUsedCount}`, 'line-defender');
+    appendLine(`> ACCURACY:             ${acc}%`, 'line-defender');
+    appendLine(`> TOTAL XP:             ${msg.totalXP}`, 'line-defender');
+    appendLine(div, 'line-divider');
+    appendLine(`> PERFORMANCE RATING:   ${msg.performanceRating}`, 'line-rating');
+    appendLine(`> ${msg.closingMessage}`, 'line-closing');
+    appendLine(div, 'line-divider');
+    appendLine(`> Type READY to start a new session.`, 'line-system');
+  }
+
+  // ── Helpers ───────────────────────────────────────────────────────────────
+  function appendLine(text, cls) {
+    const div = document.createElement('div');
+    div.className = `line ${cls}`;
+    div.textContent = text;
+    output.appendChild(div);
+    scrollBottom();
+  }
+
+  function scrollBottom() {
+    output.scrollTop = output.scrollHeight;
+  }
+
+  function setInputEnabled(enabled) {
+    cmdInput.disabled = !enabled;
+    if (enabled) cmdInput.focus();
+  }
+
+  // ── Player input ──────────────────────────────────────────────────────────
+  cmdInput.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    const raw = cmdInput.value.trim().toUpperCase();
+    cmdInput.value = '';
+
+    if (!raw) return;
+
+    // Echo player input
+    appendLine(`> ${raw}`, 'line-player');
+
+    if (!VALID_CMDS.has(raw)) {
+      appendLine(
+        '> SYSTEM: Unknown command. Valid commands: PATCH | SCAN | BLOCK | HINT | HELP | NEXT | FINISH',
+        'line-system'
+      );
+      return;
+    }
+
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify({ type: 'PLAYER_INPUT', input: raw }));
+    } else {
+      appendLine('> SYSTEM: Not connected. Please refresh.', 'line-system');
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && isTyping) {
+      skipTyping = true;
+    }
+  });
+
+  // ── Boot ──────────────────────────────────────────────────────────────────
+  connect();
+</script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36" version="29.6.4" pages="2">
+  <diagram name="JADE Internal Process Diagram" id="jade-internal-001">
+    <mxGraphModel dx="1426" dy="856" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="outer" parent="1" style="rounded=1;fillColor=none;strokeColor=#001DBC;strokeWidth=2;dashed=1;dashPattern=8 4;verticalAlign=top;align=center;fontSize=14;fontStyle=1;html=1;spacingTop=4;" value="JADE Runtime Container" vertex="1">
+          <mxGeometry height="610" width="1149" x="100" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="boot_bg" parent="1" style="rounded=1;fillColor=#f3e8ff;strokeColor=#9673a6;strokeWidth=1;verticalAlign=top;align=left;fontSize=11;fontStyle=3;html=1;spacingTop=4;spacingLeft=6;" value="JADE Boot Sequence" vertex="1">
+          <mxGeometry height="76" width="1120" x="110" y="156" as="geometry" />
+        </mxCell>
+        <mxCell id="boot1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" value="&lt;b&gt;JADE Platform Starts&lt;/b&gt;" vertex="1">
+          <mxGeometry height="48" width="170" x="122" y="172" as="geometry" />
+        </mxCell>
+        <mxCell id="boot2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" value="&lt;b&gt;Agent Management System (AMS) Initializes&lt;/b&gt;" vertex="1">
+          <mxGeometry height="48" width="210" x="338" y="172" as="geometry" />
+        </mxCell>
+        <mxCell id="boot3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" value="&lt;b&gt;Directory Facilitator (DF) Registers Agents&lt;/b&gt;" vertex="1">
+          <mxGeometry height="48" width="200" x="598" y="172" as="geometry" />
+        </mxCell>
+        <mxCell id="boot4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" value="&lt;b&gt;All 5 Agents Spawn and Register with DF&lt;/b&gt;" vertex="1">
+          <mxGeometry height="48" width="358" x="848" y="172" as="geometry" />
+        </mxCell>
+        <mxCell id="eb1" edge="1" parent="1" source="boot1" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="boot2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eb2" edge="1" parent="1" source="boot2" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="boot3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eb3" edge="1" parent="1" source="boot3" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="boot4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ag_phish" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;verticalAlign=middle;" value="&lt;b&gt;Phishing Cyberattack Agent&lt;/b&gt;&lt;br/&gt;&lt;i style=&quot;font-size:10px;&quot;&gt;Loads ML model, generates phishing&lt;br/&gt;attack events, sends ACL messages&lt;/i&gt;" vertex="1">
+          <mxGeometry height="90" width="210" x="115" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="ag_attack2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;verticalAlign=middle;" value="&lt;b&gt;Cyberattack Agent 2&lt;/b&gt;&lt;br/&gt;&lt;i style=&quot;font-size:10px;&quot;&gt;Loads ML model 2, generates&lt;br/&gt;attack events, sends ACL messages&lt;/i&gt;" vertex="1">
+          <mxGeometry height="90" width="210" x="115" y="363" as="geometry" />
+        </mxCell>
+        <mxCell id="ag_attack3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;verticalAlign=middle;" value="&lt;b&gt;Cyberattack Agent 3&lt;/b&gt;&lt;br/&gt;&lt;i style=&quot;font-size:10px;&quot;&gt;Loads ML model 3, generates&lt;br/&gt;attack events, sends ACL messages&lt;/i&gt;" vertex="1">
+          <mxGeometry height="90" width="210" x="115" y="476" as="geometry" />
+        </mxCell>
+        <mxCell id="acl_bus" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=2;fontSize=12;" value="&lt;b&gt;JADE ACL Message Bus (FIPA-compliant)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="55" width="545" x="392" y="405" as="geometry" />
+        </mxCell>
+        <mxCell id="ag_monitor" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;verticalAlign=middle;" value="&lt;b&gt;Monitoring Agent&lt;/b&gt;&lt;br/&gt;&lt;i style=&quot;font-size:10px;&quot;&gt;TickerBehaviour (periodic): observes&lt;br/&gt;all agent activity, logs events,&lt;br/&gt;sends INFORM to Defender Agent&lt;/i&gt;" vertex="1">
+          <mxGeometry height="105" width="222" x="995" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="ag_defender" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;verticalAlign=middle;" value="&lt;b&gt;Defender Agent (DEFENDER)&lt;/b&gt;&lt;br/&gt;&lt;i style=&quot;font-size:10px;&quot;&gt;CyclicBehaviour: receives attack&lt;br/&gt;messages, evaluates threat, responds&lt;br/&gt;with countermeasures, updates score&lt;/i&gt;" vertex="1">
+          <mxGeometry height="110" width="222" x="995" y="425" as="geometry" />
+        </mxCell>
+        <mxCell id="svc_bg" parent="1" style="rounded=1;fillColor=#EBF3FB;strokeColor=#6c8ebf;strokeWidth=1;verticalAlign=top;align=center;fontSize=11;fontStyle=3;html=1;spacingTop=4;" value="JADE Internal Services" vertex="1">
+          <mxGeometry height="135" width="1120" x="110" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="svc_ams" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="&lt;b&gt;Agent Management System (AMS)&lt;/b&gt;&lt;br/&gt;&lt;i style=&quot;font-size:10px;&quot;&gt;Controls agent lifecycle&lt;/i&gt;" vertex="1">
+          <mxGeometry height="100" width="330" x="122" y="624" as="geometry" />
+        </mxCell>
+        <mxCell id="svc_df" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="&lt;b&gt;Directory Facilitator (DF)&lt;/b&gt;&lt;br/&gt;&lt;i style=&quot;font-size:10px;&quot;&gt;Agent discovery and registration&lt;/i&gt;" vertex="1">
+          <mxGeometry height="100" width="330" x="498" y="624" as="geometry" />
+        </mxCell>
+        <mxCell id="svc_mts" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="&lt;b&gt;Message Transport System (MTS)&lt;/b&gt;&lt;br/&gt;&lt;i style=&quot;font-size:10px;&quot;&gt;Routes ACL messages between agents&lt;/i&gt;" vertex="1">
+          <mxGeometry height="100" width="330" x="874" y="624" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="ag_phish" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;fontStyle=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.2;entryDx=0;entryDy=0;" target="acl_bus" value="REQUEST (attack simulation)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="ag_attack2" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;fontStyle=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="acl_bus" value="REQUEST (attack simulation)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="ag_attack3" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;fontStyle=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.8;entryDx=0;entryDy=0;" target="acl_bus" value="REQUEST (attack simulation)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="acl_bus" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;fontStyle=2;exitX=1;exitY=0.65;exitDx=0;exitDy=0;entryX=0;entryY=0.45;entryDx=0;entryDy=0;" target="ag_defender" value="REQUEST / INFORM">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="ag_monitor" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;fontStyle=2;exitX=0;exitY=0.6;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" target="acl_bus" value="INFORM (threat alert)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="acl_bus" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;fontStyle=2;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" target="ag_monitor" value="CONFIRM (countermeasure applied)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="ag_defender" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;fontStyle=2;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" target="acl_bus" value="CONFIRM / REFUSE / AGREE">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="acl_bus" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;fontStyle=2;dashed=1;exitX=0;exitY=0.2;exitDx=0;exitDy=0;entryX=1;entryY=0.3;entryDx=0;entryDy=0;" target="ag_phish" value="REFUSE / AGREE (response)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="acl_bus" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;fontStyle=2;dashed=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="ag_attack2" value="REFUSE / AGREE (response)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="acl_bus" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;fontStyle=2;dashed=1;exitX=0;exitY=0.8;exitDx=0;exitDy=0;entryX=1;entryY=0.7;entryDx=0;entryDy=0;" target="ag_attack3" value="REFUSE / AGREE (response)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Copy of JADE Internal Process Diagram" id="-It8Jo0mmEzkK0Rw-T4b">
+    <mxGraphModel dx="1430" dy="856" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="aEM45xyo787i1znavqg9-0" />
+        <mxCell id="aEM45xyo787i1znavqg9-1" parent="aEM45xyo787i1znavqg9-0" />
+        <mxCell id="aEM45xyo787i1znavqg9-2" parent="aEM45xyo787i1znavqg9-1" style="rounded=1;fillColor=none;strokeColor=#001DBC;strokeWidth=2;dashed=1;dashPattern=8 4;verticalAlign=top;align=center;fontSize=14;fontStyle=1;html=1;spacingTop=4;" value="JADE Runtime Container" vertex="1">
+          <mxGeometry height="610" width="1149" x="100" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-3" parent="aEM45xyo787i1znavqg9-1" style="rounded=1;fillColor=#f3e8ff;strokeColor=#9673a6;strokeWidth=1;verticalAlign=top;align=left;fontSize=11;fontStyle=3;html=1;spacingTop=4;spacingLeft=6;" value="JADE Boot Sequence" vertex="1">
+          <mxGeometry height="76" width="1120" x="110" y="156" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-4" parent="aEM45xyo787i1znavqg9-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" value="&lt;b&gt;JADE Platform Starts&lt;/b&gt;" vertex="1">
+          <mxGeometry height="48" width="170" x="122" y="172" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-5" parent="aEM45xyo787i1znavqg9-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" value="&lt;b&gt;Agent Management System (AMS) Initializes&lt;/b&gt;" vertex="1">
+          <mxGeometry height="48" width="210" x="338" y="172" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-6" parent="aEM45xyo787i1znavqg9-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" value="&lt;b&gt;Directory Facilitator (DF) Registers Agents&lt;/b&gt;" vertex="1">
+          <mxGeometry height="48" width="200" x="598" y="172" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-7" parent="aEM45xyo787i1znavqg9-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" value="&lt;b&gt;All 5 Agents Spawn and Register with DF&lt;/b&gt;" vertex="1">
+          <mxGeometry height="48" width="358" x="848" y="172" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-8" edge="1" parent="aEM45xyo787i1znavqg9-1" source="aEM45xyo787i1znavqg9-4" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="aEM45xyo787i1znavqg9-5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-9" edge="1" parent="aEM45xyo787i1znavqg9-1" source="aEM45xyo787i1znavqg9-5" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="aEM45xyo787i1znavqg9-6" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-10" edge="1" parent="aEM45xyo787i1znavqg9-1" source="aEM45xyo787i1znavqg9-6" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="aEM45xyo787i1znavqg9-7" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-11" parent="aEM45xyo787i1znavqg9-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;verticalAlign=middle;" value="&lt;b&gt;Phishing Cyberattack Agent&lt;/b&gt;&lt;br/&gt;&lt;i style=&quot;font-size:10px;&quot;&gt;Loads ML model, generates phishing&lt;br/&gt;attack events, sends ACL messages&lt;/i&gt;" vertex="1">
+          <mxGeometry height="90" width="210" x="115" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-12" parent="aEM45xyo787i1znavqg9-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;verticalAlign=middle;" value="&lt;b&gt;Cyberattack Agent 2&lt;/b&gt;&lt;br/&gt;&lt;i style=&quot;font-size:10px;&quot;&gt;Loads ML model 2, generates&lt;br/&gt;attack events, sends ACL messages&lt;/i&gt;" vertex="1">
+          <mxGeometry height="90" width="210" x="115" y="363" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-13" parent="aEM45xyo787i1znavqg9-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;verticalAlign=middle;" value="&lt;b&gt;Cyberattack Agent 3&lt;/b&gt;&lt;br/&gt;&lt;i style=&quot;font-size:10px;&quot;&gt;Loads ML model 3, generates&lt;br/&gt;attack events, sends ACL messages&lt;/i&gt;" vertex="1">
+          <mxGeometry height="90" width="210" x="115" y="476" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-14" parent="aEM45xyo787i1znavqg9-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=2;fontSize=12;" value="&lt;b&gt;JADE ACL Message Bus (FIPA-compliant)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="55" width="545" x="392" y="405" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-15" parent="aEM45xyo787i1znavqg9-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;verticalAlign=middle;" value="&lt;b&gt;Monitoring Agent&lt;/b&gt;&lt;br/&gt;&lt;i style=&quot;font-size:10px;&quot;&gt;TickerBehaviour (periodic): observes&lt;br/&gt;all agent activity, logs events,&lt;br/&gt;sends INFORM to Defender Agent&lt;/i&gt;" vertex="1">
+          <mxGeometry height="105" width="222" x="995" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-16" parent="aEM45xyo787i1znavqg9-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;verticalAlign=middle;" value="&lt;b&gt;Defender Agent (DEFENDER)&lt;/b&gt;&lt;br/&gt;&lt;i style=&quot;font-size:10px;&quot;&gt;CyclicBehaviour: receives attack&lt;br/&gt;messages, evaluates threat, responds&lt;br/&gt;with countermeasures, updates score&lt;/i&gt;" vertex="1">
+          <mxGeometry height="110" width="222" x="995" y="425" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-17" parent="aEM45xyo787i1znavqg9-1" style="rounded=1;fillColor=#EBF3FB;strokeColor=#6c8ebf;strokeWidth=1;verticalAlign=top;align=center;fontSize=11;fontStyle=3;html=1;spacingTop=4;" value="JADE Internal Services" vertex="1">
+          <mxGeometry height="135" width="1120" x="110" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-18" parent="aEM45xyo787i1znavqg9-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="&lt;b&gt;Agent Management System (AMS)&lt;/b&gt;&lt;br/&gt;&lt;i style=&quot;font-size:10px;&quot;&gt;Controls agent lifecycle&lt;/i&gt;" vertex="1">
+          <mxGeometry height="100" width="330" x="122" y="624" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-19" parent="aEM45xyo787i1znavqg9-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="&lt;b&gt;Directory Facilitator (DF)&lt;/b&gt;&lt;br/&gt;&lt;i style=&quot;font-size:10px;&quot;&gt;Agent discovery and registration&lt;/i&gt;" vertex="1">
+          <mxGeometry height="100" width="330" x="498" y="624" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-20" parent="aEM45xyo787i1znavqg9-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="&lt;b&gt;Message Transport System (MTS)&lt;/b&gt;&lt;br/&gt;&lt;i style=&quot;font-size:10px;&quot;&gt;Routes ACL messages between agents&lt;/i&gt;" vertex="1">
+          <mxGeometry height="100" width="330" x="874" y="624" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-21" edge="1" parent="aEM45xyo787i1znavqg9-1" source="aEM45xyo787i1znavqg9-11" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;fontStyle=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.2;entryDx=0;entryDy=0;" target="aEM45xyo787i1znavqg9-14" value="REQUEST (attack simulation)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-22" edge="1" parent="aEM45xyo787i1znavqg9-1" source="aEM45xyo787i1znavqg9-12" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;fontStyle=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="aEM45xyo787i1znavqg9-14" value="REQUEST (attack simulation)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-23" edge="1" parent="aEM45xyo787i1znavqg9-1" source="aEM45xyo787i1znavqg9-13" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;fontStyle=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.8;entryDx=0;entryDy=0;" target="aEM45xyo787i1znavqg9-14" value="REQUEST (attack simulation)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-24" edge="1" parent="aEM45xyo787i1znavqg9-1" source="aEM45xyo787i1znavqg9-14" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;fontStyle=2;exitX=1;exitY=0.65;exitDx=0;exitDy=0;entryX=0;entryY=0.45;entryDx=0;entryDy=0;" target="aEM45xyo787i1znavqg9-16" value="REQUEST / INFORM">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-25" edge="1" parent="aEM45xyo787i1znavqg9-1" source="aEM45xyo787i1znavqg9-15" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;fontStyle=2;exitX=0;exitY=0.6;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" target="aEM45xyo787i1znavqg9-14" value="INFORM (threat alert)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-26" edge="1" parent="aEM45xyo787i1znavqg9-1" source="aEM45xyo787i1znavqg9-14" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;fontStyle=2;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" target="aEM45xyo787i1znavqg9-15" value="CONFIRM (countermeasure applied)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-27" edge="1" parent="aEM45xyo787i1znavqg9-1" source="aEM45xyo787i1znavqg9-16" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;fontStyle=2;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" target="aEM45xyo787i1znavqg9-14" value="CONFIRM / REFUSE / AGREE">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-28" edge="1" parent="aEM45xyo787i1znavqg9-1" source="aEM45xyo787i1znavqg9-14" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;fontStyle=2;dashed=1;exitX=0;exitY=0.2;exitDx=0;exitDy=0;entryX=1;entryY=0.3;entryDx=0;entryDy=0;" target="aEM45xyo787i1znavqg9-11" value="REFUSE / AGREE (response)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-29" edge="1" parent="aEM45xyo787i1znavqg9-1" source="aEM45xyo787i1znavqg9-14" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;fontStyle=2;dashed=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="aEM45xyo787i1znavqg9-12" value="REFUSE / AGREE (response)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aEM45xyo787i1znavqg9-30" edge="1" parent="aEM45xyo787i1znavqg9-1" source="aEM45xyo787i1znavqg9-14" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;fontStyle=2;dashed=1;exitX=0;exitY=0.8;exitDx=0;exitDy=0;entryX=1;entryY=0.7;entryDx=0;entryDy=0;" target="aEM45xyo787i1znavqg9-13" value="REFUSE / AGREE (response)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

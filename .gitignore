@@ -1,0 +1,47 @@
+# Ignore large ML model artifacts
+*.pkl
+*.joblib
+*.pt
+*.pth
+*.h5
+*.hdf5
+*.onnx
+*.bin
+*.ckpt
+*.safetensors
+*.pb
+*.tflite
+*.keras
+*.pdf
+
+# Ignore Python cache artifacts
+__pycache__/
+*.pyc
+
+# Ignore local runtime logs
+*.log
+
+# Ignore large model folders
+/Brute_Force Agent/
+/Malware Model/
+/Phishing_Agent/
+
+# Build artifacts
+backend/target/
+
+# JADE runtime files
+APDescription.txt
+MTPs-Main-Container.txt
+
+# macOS metadata
+.DS_Store
+
+# Local IDE config
+.claude/
+CLAUDE.md
+
+# Raw screen recordings
+*.mp4
+
+# Academic report content
+slides/

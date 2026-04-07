@@ -1,0 +1,105 @@
+<mxfile host="app.diagrams.net" modified="2026-03-19T00:00:00.000Z" agent="Claude Code" version="21.0.0" type="device">
+  <diagram name="System Overview" id="system-overview-001">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- LAYER 1: Datasets (far left) -->
+        <mxCell id="d1" value="&lt;b&gt;Email / URL Dataset&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="25" y="148" width="155" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" value="&lt;b&gt;Dataset 2&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="25" y="298" width="155" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" value="&lt;b&gt;Dataset 3&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="25" y="448" width="155" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- LAYER 2: ML Models -->
+        <mxCell id="ml1" value="&lt;b&gt;Phishing Detection Model&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="230" y="148" width="170" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="ml2" value="&lt;b&gt;ML Model 2&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="230" y="298" width="170" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="ml3" value="&lt;b&gt;ML Model 3&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="230" y="448" width="170" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- LAYER 3: JADE Multi-Agent Container (dashed, centre) -->
+        <mxCell id="jade" value="JADE Multi-Agent Container" style="rounded=1;fillColor=none;strokeColor=#001DBC;strokeWidth=2;dashed=1;dashPattern=8 4;verticalAlign=top;align=center;fontSize=13;fontStyle=1;html=1;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="450" y="65" width="495" height="530" as="geometry" />
+        </mxCell>
+
+        <!-- Cyberattack Agents (inside JADE, left column) -->
+        <mxCell id="ag_phish" value="&lt;b&gt;Phishing Cyberattack Agent&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="470" y="123" width="190" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="ag_attack2" value="&lt;b&gt;Cyberattack Agent 2&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="470" y="273" width="190" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="ag_attack3" value="&lt;b&gt;Cyberattack Agent 3&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="470" y="423" width="190" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Defensive Agents (inside JADE, right column) -->
+        <mxCell id="ag_monitor" value="&lt;b&gt;Monitoring Agent&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="740" y="168" width="185" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="ag_defender" value="&lt;b&gt;Defender Agent (DEFENDER)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="740" y="383" width="185" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- LAYER 4: Output (far right) -->
+        <mxCell id="ui" value="&lt;b&gt;Training UI / Frontend&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="190" width="155" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="report" value="&lt;b&gt;Training Report / Score&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="395" width="155" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- LAYER 5: JADE Platform Services bar (bottom) -->
+        <mxCell id="svc" value="&lt;b&gt;JADE Platform Services (AMS · DF · MTS)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="450" y="620" width="495" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows: Datasets → ML Models -->
+        <mxCell id="a1" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="d1" target="ml1" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="d2" target="ml2" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a3" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="d3" target="ml3" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows: ML Models → Cyberattack Agents -->
+        <mxCell id="a4" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="ml1" target="ag_phish" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a5" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="ml2" target="ag_attack2" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a6" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="ml3" target="ag_attack3" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows: JADE Container → Output -->
+        <mxCell id="a7" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.28;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="jade" target="ui" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a8" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.62;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="jade" target="report" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow: Services Bar → JADE Container (upward) -->
+        <mxCell id="a9" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" source="svc" target="jade" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
